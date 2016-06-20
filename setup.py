@@ -72,6 +72,7 @@ install_requires = [
     'Flask-Script>=2.0.5',
     'jsmin',
     'pytest-runner>=2.7.0',
+    'iso8601>=0.1.11',
 ]
 
 tests_require = [
