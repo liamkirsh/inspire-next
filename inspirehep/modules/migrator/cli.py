@@ -29,6 +29,7 @@ import os
 import sys
 
 from flask import current_app
+from flask_cli import with_appcontext
 from flask.ext.script import prompt_bool
 from flask_cli import with_appcontext
 
@@ -39,6 +40,7 @@ from .tasks.records import (
     migrate,
     migrate_broken_records,
 )
+from .tasks.workflows import import_holdingpen_record
 
 from .tasks.remoteaccount import load_remoteacount
 
@@ -92,7 +94,6 @@ def count_citations():
 @click.argument('source', type=click.File('r'), default=sys.stdin)
 @with_appcontext
 def loadremoteaccount(source):
-    """Load legacy workflow objects into Holding Pen."""
     click.echo('Loading dump...')
     data = json.load(source)
 
@@ -100,6 +101,29 @@ def loadremoteaccount(source):
     with click.progressbar(data) as records:
         for item in records:
             load_remoteacount.delay(item)
+
+
+@migrator.command()
+@click.argument('source', type=click.File('r'), default=sys.stdin)
+@with_appcontext
+def loadaudits(source):
+    """Load workflow Audit logs for workflows.models.Audit."""
+    # TODO implement
+    pass
+
+
+@migrator.command()
+@click.argument('source', type=click.File('r'), default=sys.stdin)
+@with_appcontext
+def loadworkflows(source):
+    """Load legacy workflow objects into Holding Pen."""
+    click.echo('Loading dump...')
+    data = json.load(source)
+
+    click.echo('Sending tasks to queue...')
+    with click.progressbar(data) as records:
+        for item in records:
+            import_holdingpen_record.delay(item['obj'], item['eng'])
 
 
 @migrator.command()

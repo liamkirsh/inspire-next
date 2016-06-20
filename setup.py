@@ -99,6 +99,9 @@ extras_require = {
     'sqlite': [
         'invenio-db[versioning]>=1.0.0a6',
     ],
+    'migration': [
+        'invenio-migrator>=1.0.0a6',
+    ],
     'tests': tests_require,
     'development': [
         'Flask-DebugToolbar>=0.9',
@@ -207,6 +210,8 @@ setup(
         ],
         'invenio_migrator.things': [
             'remoteaccount = inspirehep.modules.migrator.legacy.remoteaccount',
+            'holdingpen = inspirehep.modules.migrator.legacy.workflows',
+            'audit = inspirehep.modules.migrator.legacy.audit',
         ],
         'invenio_jsonschemas.schemas': [
             'inspire_records = inspirehep.modules.records.jsonschemas',
@@ -232,11 +237,7 @@ setup(
         ],
         'invenio_db.models': [
             'inspire_workflows_audit = inspirehep.modules.workflows.models',
-        ],
-        'invenio_migrator.things': [
-            'remoteaccount = inspirehep.modules.migrator.legacy.remoteaccount',
-            'holdingpen = inspirehep.modules.migrator.legacy.workflows',
-        ],
+        ]
     },
     tests_require=tests_require,
 )
