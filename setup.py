@@ -207,7 +207,9 @@ setup(
             'inspirehep_holding_js = inspirehep.modules.workflows.bundles:details_js',
         ],
         'invenio_celery.tasks': [
-            'inspire_remoteaccount = inspirehep.modules.migrator.tasks.remoteaccount',
+            'inspire_migrator = inspirehep.modules.migrator.tasks.remoteaccount',
+            'inspire_workflows = inspirehep.modules.migrator.tasks.workflows',
+            'inspire_records = inspirehep.modules.migrator.tasks.records',
         ],
         'invenio_migrator.things': [
             'remoteaccount = inspirehep.modules.migrator.legacy.remoteaccount',
